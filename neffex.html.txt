@@ -1,0 +1,380 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@neffex.x | Premium Profile</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0b0b0b',
+                        neon: {
+                            purple: '#a855f7',
+                            cyan: '#06b6d4'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, filter: 'drop-shadow(0 0 15px rgba(168,85,247,0.8))' },
+                            '50%': { opacity: .8, filter: 'drop-shadow(0 0 5px rgba(6,182,212,0.5))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0b0b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card:hover {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Ambient Glow */
+        .ambient-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, rgba(6,182,212,0.05) 40%, rgba(11,11,11,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Custom Cursor (Desktop Only) */
+        @media (pointer: fine) {
+            .cursor-glow {
+                position: fixed;
+                width: 300px;
+                height: 300px;
+                background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(11,11,11,0) 60%);
+                border-radius: 50%;
+                pointer-events: none;
+                transform: translate(-50%, -50%);
+                z-index: -1;
+                transition: background 0.3s ease;
+            }
+        }
+
+        /* Typing Effect Cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+            color: #06b6d4;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-neon-purple selection:text-white">
+
+    <!-- Background Effects -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="ambient-glow"></div>
+    <div class="cursor-glow hidden md:block" id="cursor"></div>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-6 pt-24 pb-12 flex flex-col gap-12 relative z-10">
+
+        <!-- Hero Section -->
+        <section class="flex flex-col items-center text-center reveal active">
+            <!-- Profile Picture -->
+            <div class="relative w-32 h-32 md:w-40 md:h-40 mb-6 group">
+                <!-- Blurred background glow -->
+                <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-neon-purple to-neon-cyan opacity-75 blur-xl group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <!-- Profile Image Container with Glowing Border -->
+                <div class="relative w-full h-full rounded-full border border-neon-cyan/50 ring-4 ring-neon-purple/40 shadow-[0_0_25px_rgba(168,85,247,0.6)] z-10 animate-pulse-glow flex items-center justify-center bg-[#050505] overflow-hidden transition-all duration-300">
+                    <!-- Futuristic NEFFEX SVG Logo -->
+                    <svg viewBox="0 0 200 200" class="w-full h-full scale-105" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="neffexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#a855f7" />
+                                <stop offset="50%" stop-color="#ffffff" />
+                                <stop offset="100%" stop-color="#06b6d4" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <rect width="200" height="200" fill="#050505"/>
+                        <!-- Stylized geometric background elements -->
+                        <path d="M 0 0 L 200 200 M 200 0 L 0 200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+                        <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(6,182,212,0.1)" stroke-width="1"/>
+                        <circle cx="100" cy="100" r="65" fill="none" stroke="rgba(168,85,247,0.1)" stroke-width="1"/>
+                        <!-- Main Text -->
+                        <text x="50%" y="53%" dominant-baseline="middle" text-anchor="middle" fill="url(#neffexGrad)" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="34" letter-spacing="4" filter="url(#glow)">NEFFEX</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Username & Badge -->
+            <div class="flex items-center gap-2 mb-2">
+                <h1 class="text-3xl md:text-4xl font-display font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                    @neffex.x
+                </h1>
+                <svg class="w-6 h-6 text-neon-cyan" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.9 14.7L6 12.6l1.5-1.5 2.6 2.6 6.4-6.4 1.5 1.5-8 8z"/>
+                </svg>
+            </div>
+
+            <!-- Bio & Typing Effect -->
+            <p class="text-gray-400 text-lg mb-2 font-light">Believe in Your Faith.</p>
+            <div class="h-6">
+                <span id="typing-text" class="text-neon-cyan font-display font-medium text-lg typing-cursor"></span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <a href="https://instagram.com/neffex.x" target="_blank" rel="noopener noreferrer" class="px-8 py-3 rounded-full bg-white text-dark font-semibold hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)] inline-block">
+                    Follow Me
+                </a>
+            </div>
+        </section>
+
+        <!-- Cinematic Moon Image Section -->
+        <section class="reveal w-full mt-4 mb-8">
+            <div class="relative w-full aspect-[4/3] md:aspect-[21/9] rounded-[2rem] overflow-hidden glass-card p-2 shadow-[0_0_40px_rgba(168,85,247,0.15)] border border-white/10 group hover:border-neon-cyan/30 transition-all duration-700">
+                <!-- Inner soft gradient overlay -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-neon-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 pointer-events-none rounded-[2rem]"></div>
+                
+                <!-- Moon Image -->
+                <img 
+                    src="https://images.unsplash.com/photo-1522030299830-16b8d3d049fe?q=80&w=2000&auto=format&fit=crop" 
+                    alt="Cinematic Moon" 
+                    class="w-full h-full object-cover rounded-[1.5rem] filter contrast-125 brightness-90 group-hover:scale-105 transition-transform duration-1000 ease-out"
+                >
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center pt-8 pb-4 border-t border-white/10 reveal">
+            <p class="text-gray-500 font-display text-sm">
+                © 2023 neffex.x <br>
+                Designed with <span class="text-red-500 animate-pulse inline-block">❤️</span> by NOX
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+
+        // 2. Typing Effect
+        const textArray = ["NOX"];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById("typing-text");
+
+        function type() {
+            const currentText = textArray[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 150 : 200; // Adjusted speed for the short word
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeed = 2000; // Pause at end before deleting
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % textArray.length;
+                typeSpeed = 1000; // Pause before next word starts typing
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        setTimeout(type, 1000); // Start delay
+
+        // 3. Custom Cursor Glow
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+            
+            // Interactive elements glow change
+            const interactables = document.querySelectorAll('a, button');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.background = 'radial-gradient(circle, rgba(6,182,212,0.2) 0%, rgba(11,11,11,0) 60%)';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.background = 'radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(11,11,11,0) 60%)';
+                });
+            });
+        }
+
+        // 4. Background Particle System
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            
+            // Adjust particle count based on screen width
+            const particleCount = width < 768 ? 20 : 40;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                // Alternate between purple and cyan
+                this.color = Math.random() > 0.5 ? 'rgba(168, 85, 247, 0.4)' : 'rgba(6, 182, 212, 0.4)';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > width) this.x = 0;
+                if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0;
+                if (this.y < 0) this.y = height;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        animateCanvas();
+
+    </script>
+</body>
+</html>
+
+
+```
